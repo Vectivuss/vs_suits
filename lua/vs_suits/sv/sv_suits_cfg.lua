@@ -37,7 +37,10 @@ config.suit[ "bhopsuit" ] = { -- test suit
     droptime = 4,
 
     // How long the ability cooldown lasts
-    abilitycooldown = 10, 
+    abilitycooldown = 10,
+    
+    // Description on what the ability does
+    abilitydescription = "Minor sprint boost",
 
     OnEquip = function( p ) // player
         p:SetRunSpeed( p:GetRunSpeed() * 2 )
