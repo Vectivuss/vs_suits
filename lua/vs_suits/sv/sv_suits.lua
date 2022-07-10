@@ -99,6 +99,7 @@ hook.Add( "EntityTakeDamage", "SuitSystem.SuitPoints", function( e, t )
     local inf = t:GetInflictor()
     local damage = math.Round( t:GetDamage() )
 
+    if SH_SZ and SH_SZ:GetSafeStatus( p ) == SH_SZ.PROTECTED then t:SetDamage( 0 ) return end
     if vs and vs.shield then if p:HasShields() then t:SetDamage( 0 ) return end end
     if inf:GetClass() == "prop_physics" then t:SetDamage( 0 ) return end
     if damage <= 0 then t:SetDamage( 0 ) return end
@@ -168,7 +169,7 @@ hook.Add( "PlayerSay", "SuitSystem.DropSuit", function( p, t )
         local trace = {}
         trace.start = p:EyePos()
         trace.endpos = trace.start + p:GetAimVector() * 85
-        trace.filter = ply
+        trace.filter = p
 
         local tr = util.TraceLine( trace )
         local suit = ents.Create( "vs_suits" )
