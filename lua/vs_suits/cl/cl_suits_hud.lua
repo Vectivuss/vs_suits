@@ -36,13 +36,16 @@ hook.Add( "HUDPaint", "SuitSystem.HUD", function()
     draw.RoundedBoxEx( 8, x + hpw, y + 1, apw - 2, H -3, Color( 78, 144, 243, 225 ), false, true, false, true )
 
     draw.SimpleText( suit, "uib.25", w*.5, h*.045, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
-    draw.SimpleText( math.ceil( math.Clamp( lerpHP, 0, maxhp ) ) .. " HP", "uib.18", w*.4, h*.072, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
-    draw.SimpleText( math.ceil( math.Clamp( lerpAP, 0, maxap ) ) .. " AP", "uib.18", w*.6, h*.072, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
+    draw.SimpleText( math.Round( math.Clamp( lerpHP, 0, maxhp ) ) .. " HP", "uib.18", w*.4, h*.072, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
+    draw.SimpleText( math.Round( math.Clamp( lerpAP, 0, maxap ) ) .. " AP", "uib.18", w*.6, h*.072, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
 
     // Armor Ability //
-    local cooldown = t.abilitycooldown
+    local desc = t.abilitydescription or ""
     local i = p:GetNWFloat( "SuitAbilityEnd", 0 )
-    if i <= 0 then  return end
+    if i <= 0 then 
+        draw.SimpleText( desc, "uib.20", w*.502, h*.1, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
+        return 
+    end
     local f = math.Clamp( math.Remap( i-CurTime(), 0, cooldown, 0, 1 ), 0, 1 )
 
     surface.SetDrawColor( 255, 255, 255 )
