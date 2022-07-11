@@ -40,6 +40,7 @@ hook.Add( "HUDPaint", "SuitSystem.HUD", function()
     draw.SimpleText( math.Round( math.Clamp( lerpAP, 0, maxap ) ) .. " AP", "uib.18", w*.6, h*.072, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
 
     // Armor Ability //
+    local cooldown = t.abilitycooldown or 0
     local desc = t.abilitydescription or ""
     local i = p:GetNWFloat( "SuitAbilityEnd", 0 )
     if i <= 0 then 
