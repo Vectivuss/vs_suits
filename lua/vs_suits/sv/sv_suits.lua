@@ -27,7 +27,7 @@ function VectivusSuits:CreateSuit( p, k )
     local trace = {}
     trace.start = p:EyePos()
     trace.endpos = trace.start + p:GetAimVector() * 85
-    trace.filter = ply
+    trace.filter = p
 
     local tr = util.TraceLine( trace )
     local suit = ents.Create( "vs_suits" )
