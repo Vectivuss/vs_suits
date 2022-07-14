@@ -65,6 +65,11 @@ config.suit[ "bhopsuit" ] = { -- test suit
         return false -- prevents player getting arrested
     end,
 
+    OnKeyPressed = function( p, k, a ) // player, key, hasActiveAbility(bool)
+        // Keys: https://wiki.facepunch.com/gmod/Enums/KEY
+        // code
+    end,
+
     OnAbility = function( p ) // player
         local runspeed = p:GetRunSpeed()
         p:SetRunSpeed( runspeed * 2 )
