@@ -128,12 +128,21 @@ hook.Add( "EntityTakeDamage", "SuitSystem.SuitPoints", function( e, t )
     t:SetDamage( damage )
 end )
 
+hook.Add( "canArrest", "SuitSystem.OnArrest", function( e, p )
+    if !p:HasActiveSuit() then return end
+    local t = p:GetSuitTable()
+    if t.OnArrest then return t.OnArrest( p, e ) end
+end )
+
 hook.Add( "PlayerButtonDown", "SuitSystem.OnAbility", function( p, k )
+    if !p:HasActiveSuit() then return end
+    local t = p:GetSuitTable()
+    local hasActiveAbility = tobool( p.suitAbility )
+    if t.OnKeyPressed then t.OnKeyPressed( p, k, hasActiveAbility ) end
+
     if p.suitDropping then return end
     if p.suitAbility then return end
-    if !p:HasActiveSuit() then return end
     if k != KEY_G then return end
-    local t = p:GetSuitTable()
     local abilityCooldown = t.abilitycooldown
     if !abilityCooldown then return end
     if !t.OnAbility then return end
