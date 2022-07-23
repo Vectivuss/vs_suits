@@ -158,6 +158,16 @@ hook.Add( "PlayerButtonDown", "SuitSystem.OnAbility", function( p, k )
     end )
 end )
 
+hook.Add( "Think", "SuitSystem.OnThink", function()
+    for _, p in pairs( player.GetAll() ) do
+        if !IsValid( p ) then continue end 
+        if !p:HasActiveSuit() then continue end
+        local t = p:GetSuitTable()
+        local hasActiveAbility = tobool( p.suitAbility )
+        if t.OnThink then t.OnThink( p, hasActiveAbility ) end
+    end
+end )
+
 hook.Add( "PlayerSay", "SuitSystem.DropSuit", function( p, t )
     if p.suitAbility then return "" end
     if p.suitDropping then return "" end
