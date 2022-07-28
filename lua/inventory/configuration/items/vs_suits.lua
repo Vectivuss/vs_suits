@@ -25,7 +25,6 @@ function ITEM:GetName( e )
     local t = GetSuitData( data["_Suitkey"] )
     if !t then return end
     if table.IsEmpty( t ) then return end
-
     return "Armor Suit (" .. t.name .. ")"
 end
 

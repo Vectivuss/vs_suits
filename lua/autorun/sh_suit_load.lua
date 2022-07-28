@@ -1,6 +1,8 @@
 if SERVER then
     VectivusSuits = VectivusSuits or {}
     VectivusSuits.suit = VectivusSuits.suit or {}
+	resource.AddFile( "materials/vs_suits/close.png" )
+	resource.AddFile( "resource/fonts/Purista.ttf" )
 end
 
 local path = "vs_suits/"

@@ -16,12 +16,12 @@ config.commands = { // Commands that can drop player suit
 }
 
 // Armour Suits //
-
 config.suit[ "bhopsuit" ] = { -- test suit
 
     // name of suit
     name = "BHop Suit",
 
+    // model of the armor suit
     model = "models/player/alyx.mdl",
 
     // The health the suit spawns with
@@ -37,8 +37,8 @@ config.suit[ "bhopsuit" ] = { -- test suit
     droptime = 4,
 
     // How long the ability cooldown lasts
-    abilitycooldown = 10,
-    
+    abilitycooldown = 10, 
+
     // Description on what the ability does
     abilitydescription = "Minor sprint boost",
 
@@ -55,7 +55,7 @@ config.suit[ "bhopsuit" ] = { -- test suit
         // code
     end,
 
-    OnThink = function( p ) // player
+    OnThink = function( p, a ) // player, hasActiveAbility(bool)
         // code
         // note: this can be dangerous if used incorrectly/inefficiently...
     end,
@@ -73,13 +73,13 @@ config.suit[ "bhopsuit" ] = { -- test suit
     OnAbility = function( p ) // player
         local runspeed = p:GetRunSpeed()
         p:SetRunSpeed( runspeed * 2 )
+
         timer.Simple( 3, function() 
             if !IsValid( p ) then return end
             if !p:HasActiveSuit() then return end
-            p:SetRunSpeed( runspeed ) 
+            p:SetRunSpeed( runspeed )
         end )
     end,
-
 }
 
 // Config ends here //

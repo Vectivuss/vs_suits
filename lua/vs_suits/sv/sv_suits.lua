@@ -54,13 +54,13 @@ end )
 function pMeta:GiveSuit( e, k )
     local t = GetSuitData( k )
     if !istable( t ) then return end
-
     if t.model then self:SetModel( t.model ) end
     if t.OnEquip then t.OnEquip( self ) end
 
     for k, v in pairs( e:GetSuitVars() ) do
         self:SetSuitVar( k, v )
     end
+
     self:SetActiveSuit( true )
     self:SetSuit( k )
 end

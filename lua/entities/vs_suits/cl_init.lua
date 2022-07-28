@@ -27,6 +27,6 @@ function ENT:Draw()
 		surface.SetDrawColor( 210, 39, 76 )
 		surface.SetMaterial( gradientUp )
 		surface.DrawTexturedRect( -200, 80, 400, 10 )
-		draw.SimpleText( t.name or "Armor Suit", "uib.50", 0, 45, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.SimpleText( t.name or "Armor Suit", "vs.suit.uib.50", 0, 45, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 	cam.End3D2D()
 end
