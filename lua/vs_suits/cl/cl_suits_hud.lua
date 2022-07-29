@@ -72,6 +72,6 @@ hook.Add( "HUDPaint", "SuitSystem.DropHUD", function()
     surface.SetDrawColor( 255, 255, 255 )
     surface.DrawRect( x, y, h*.3 *f, 2 )
     draw.SimpleText( "Dropping...", "vs.suit.ui.24", x + ( h*.155), y - ( h*.025 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
-    draw.SimpleText( math.Clamp( math.Round(i-CurTime(), 1), 0, 999999 ), "uib.20", x + ( h*.155), y + ( h*.012 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
+    draw.SimpleText( math.Clamp( math.Round(i-CurTime(), 1), 0, 999999 ), "vs.suit.uib.20", x + ( h*.155), y + ( h*.012 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
 end )
 // Armor Suit Drop HUD //
