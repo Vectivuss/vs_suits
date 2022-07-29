@@ -96,11 +96,23 @@ hook.Add( "EntityTakeDamage", "SuitSystem.SuitPoints", function( e, t )
         p.suitDropping = false
     end
 
+    local att = t:GetAttacker()
     local inf = t:GetInflictor()
     local damage = math.Round( t:GetDamage() )
 
     if SH_SZ and SH_SZ:GetSafeStatus( p ) == SH_SZ.PROTECTED then t:SetDamage( 0 ) return end
-    if vs and vs.shield then if p:HasShields() then t:SetDamage( 0 ) return end end
+    if vs and vs.shield then 
+        if !IsValid( t:GetAttacker() ) then return end
+        if !IsValid( t:GetAttacker():GetActiveWeapon() ) then return end
+        local class = att:GetActiveWeapon():GetClass()
+        local wep = vs.shield.weapons[ class or "" ] or false
+        if wep == "kill" then 
+            t:SetDamage( damage )
+        elseif p:HasShields() then 
+            t:SetDamage( 0 ) 
+            return
+        end
+    end
     if inf:GetClass() == "prop_physics" then t:SetDamage( 0 ) return end
     if damage <= 0 then t:SetDamage( 0 ) return end
 
