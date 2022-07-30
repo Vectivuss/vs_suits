@@ -132,14 +132,15 @@ concommand.Add( "vs.suit", function( p )
     DPanel.Paint = function( s, w, h )
         draw.RoundedBoxEx( 8, 0, 0, w, h, Color( 155, 155, 155, 100 ), false, true, false, true )
         draw.RoundedBoxEx( 8, 1, 1, w-2, h-2, Color( 16, 8, 21, 250 ), false, true, false, true )
-
         local x, y = h*.03, h*.02
         local __, yy = draw.SimpleText( "Health : " .. hp, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
         y = y + yy + ( h*.01 )
         local __, yy = draw.SimpleText( "Armor : " .. ap, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
         y = y + yy + ( h*.01 )
-        local __, yy = draw.SimpleText( "Ability : " .. t.abilitydescription, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
-        y = y + yy + ( h*.01 )
+        if t.abilitydescription then
+            local __, yy = draw.SimpleText( "Ability : " .. t.abilitydescription, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
+            y = y + yy + ( h*.01 )
+        end
     end
 
     local price = ( maxhp - hp ) * t.repair
