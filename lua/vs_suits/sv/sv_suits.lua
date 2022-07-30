@@ -86,6 +86,8 @@ hook.Add( "EntityTakeDamage", "SuitSystem.SuitPoints", function( e, t )
     if !tt then return end
     if !ttt then return end
 
+    print( 1 )
+
     local hasActiveAbility = tobool( p.suitAbility )
 
     if ttt.OnTakeDamage then ttt.OnTakeDamage( p, t, hasActiveAbility ) end // OnTakeDamage
@@ -97,10 +99,13 @@ hook.Add( "EntityTakeDamage", "SuitSystem.SuitPoints", function( e, t )
     end
 
     local att = t:GetAttacker()
+    local fall = t:IsFallDamage()
     local inf = t:GetInflictor()
     local damage = math.Round( t:GetDamage() )
 
+    if fall then t:SetDamage( 0 ) return end
     if SH_SZ and SH_SZ:GetSafeStatus( p ) == SH_SZ.PROTECTED then t:SetDamage( 0 ) return end
+
     if vs and vs.shield then 
         if !IsValid( t:GetAttacker() ) then return end
         if !IsValid( t:GetAttacker():GetActiveWeapon() ) then return end
