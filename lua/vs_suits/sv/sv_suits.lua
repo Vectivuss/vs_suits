@@ -115,7 +115,7 @@ hook.Add( "EntityTakeDamage", "SuitSystem.SuitPoints", function( e, t )
     if fall then t:SetDamage( 0 ) return end
     if SH_SZ and SH_SZ:GetSafeStatus( p ) == SH_SZ.PROTECTED then t:SetDamage( 0 ) return end
 
-    if vs and vs.shield then 
+    if vs and vs.shield and !p:IsOnFire() then 
         if !IsValid( t:GetAttacker() ) then return end
         if !IsValid( t:GetAttacker():GetActiveWeapon() ) then return end
         local class = att:GetActiveWeapon():GetClass()
