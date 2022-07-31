@@ -36,6 +36,9 @@ config.suit[ "bhopsuit" ] = { -- test suit
     // How long it takes to drop armor suit
     droptime = 4,
 
+    // How long the ability lasts
+    abilitytime = 5,
+
     // How long the ability cooldown lasts
     abilitycooldown = 10, 
 
@@ -70,17 +73,17 @@ config.suit[ "bhopsuit" ] = { -- test suit
         // code
     end,
 
-    OnAbility = function( p ) // player
-        local runspeed = p:GetRunSpeed()
-        p:SetRunSpeed( runspeed * 2 )
+    OnAbilityStart = function( p ) // player
+        p.__runspeed = p:GetRunSpeed()
+        p:SetRunSpeed( p.__runspeed * 2 )
+    end,
 
-        timer.Simple( 3, function() 
-            if !IsValid( p ) then return end
-            if !p:HasActiveSuit() then return end
-            p:SetRunSpeed( runspeed )
-        end )
+    OnAbilityEnd = function( p ) // player
+        p:SetRunSpeed( p.__runspeed )
+        p.__runspeed = nil
     end,
 }
+
 
 // Config ends here //
 timer.Simple( 0, function() _SuitSystem_SyncAll() end ) -- IGNORE

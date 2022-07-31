@@ -137,9 +137,15 @@ concommand.Add( "vs.suit", function( p )
         y = y + yy + ( h*.01 )
         local __, yy = draw.SimpleText( "Armor : " .. ap, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
         y = y + yy + ( h*.01 )
-        if t.abilitydescription then
-            local __, yy = draw.SimpleText( "Ability : " .. t.abilitydescription, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
-            y = y + yy + ( h*.01 )
+        local __, yy = draw.SimpleText( "Repair price : " .. DarkRP.formatMoney( t.repair ) or 0, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
+        y = y + yy + ( h*.04 )
+        if t.abilitytime then
+            local __, yy = draw.SimpleText( "Ability : " .. t.abilitydescription or "", "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
+            y = y + yy + ( h*.02 )
+            local __, yy = draw.SimpleText( "Ability Duration : " .. t.abilitytime or 0, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
+            y = y + yy + ( h*.02 )
+            local __, yy = draw.SimpleText( "Ability Cooldown : " .. t.abilitycooldown or 0, "vs.suit.ui.22", x, y, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
+            y = y + yy + ( h*.02 )
         end
     end
 

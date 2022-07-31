@@ -5,6 +5,16 @@ function pMeta:SetActiveSuit( a )
     self:SetNWBool( "QHasActiveSuit", a )
 end
 
+function pMeta:SetActiveAbility( a )
+    if !isbool( a ) then return end
+    self:SetNWBool( "QHasActiveAbility", a )
+end
+
+function pMeta:SetAbilityCooldown( a )
+    if !isbool( a ) then return end
+    self:SetNWBool( "QGetAbilityCooldown", a )
+end
+
 function pMeta:SetSuit( k )
     if !k then return end
     self:SetNWString( "QSuitKey", k )
@@ -74,6 +84,7 @@ function pMeta:RemoveSuit()
     self:SetRunSpeed( GAMEMODE.Config.runspeed )
     self:SetActiveSuit( false )
     self:SetSuit( false )
+    self:SetActiveAbility( false )
 end
 
 hook.Add( "PlayerSpawn", "SuitSystem.PlayerSpawn", function( p ) p:RemoveSuit() end )
@@ -86,9 +97,7 @@ hook.Add( "EntityTakeDamage", "SuitSystem.SuitPoints", function( e, t )
     if !tt then return end
     if !ttt then return end
 
-    print( 1 )
-
-    local hasActiveAbility = tobool( p.suitAbility )
+    local hasActiveAbility = p:HasActiveAbility()
 
     if ttt.OnTakeDamage then ttt.OnTakeDamage( p, t, hasActiveAbility ) end // OnTakeDamage
 
@@ -154,24 +163,36 @@ end )
 hook.Add( "PlayerButtonDown", "SuitSystem.OnAbility", function( p, k )
     if !p:HasActiveSuit() then return end
     local t = p:GetSuitTable()
-    local hasActiveAbility = tobool( p.suitAbility )
+    local hasActiveAbility = p:HasActiveAbility()
     if t.OnKeyPressed then t.OnKeyPressed( p, k, hasActiveAbility ) end
 
     if p.suitDropping then return end
-    if p.suitAbility then return end
+    if p:GetAbilityCooldown() then return end
     if k != KEY_G then return end
+
+    local abilitytime = t.abilitytime
     local abilityCooldown = t.abilitycooldown
+    if !abilitytime then return end
     if !abilityCooldown then return end
-    if !t.OnAbility then return end
 
-    p.suitAbility = true
+    if !t.OnAbilityStart then return end
+    p:SetActiveAbility( true )
+    p:SetAbilityCooldown( true )
+
     p:SetNWFloat( "SuitAbilityEnd", CurTime() + abilityCooldown )
-    t.OnAbility( p )
 
-    timer.Create( "suitability." .. tostring( p ), abilityCooldown, 1, function()
+    t.OnAbilityStart( p )
+    timer.Create( "suitabilityend." .. tostring( p ), abilitytime, 1, function()
+        if !IsValid( p ) then return end
+        if !p:HasActiveAbility() then return end
+        p:SetActiveAbility( false )
+        t.OnAbilityEnd( p )
+    end )
+
+    timer.Create( "suitabilitycooldown." .. tostring( p ), abilityCooldown, 1, function()
         if !IsValid( p ) then return end
         p:SetNWFloat( "SuitAbilityEnd", 0 )
-        p.suitAbility = false
+        p:SetAbilityCooldown( false )
     end )
 end )
 
@@ -180,13 +201,13 @@ hook.Add( "Think", "SuitSystem.OnThink", function()
         if !IsValid( p ) then continue end 
         if !p:HasActiveSuit() then continue end
         local t = p:GetSuitTable()
-        local hasActiveAbility = tobool( p.suitAbility )
+        local hasActiveAbility = p:HasActiveAbility()
         if t.OnThink then t.OnThink( p, hasActiveAbility ) end
     end
 end )
 
 hook.Add( "PlayerSay", "SuitSystem.DropSuit", function( p, t )
-    if p.suitAbility then return "" end
+    if p:GetAbilityCooldown() then return "" end
     if p.suitDropping then return "" end
     local commands = config.commands
     if !p:Alive() then return "" end

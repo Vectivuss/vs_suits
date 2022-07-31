@@ -5,6 +5,14 @@ function pMeta:HasActiveSuit()
     return self:GetNWBool( "QHasActiveSuit", false )
 end
 
+function pMeta:HasActiveAbility()
+    return self:GetNWBool( "QHasActiveAbility", false )
+end
+
+function pMeta:GetAbilityCooldown()
+    return self:GetNWBool( "QGetAbilityCooldown", false )
+end
+
 function pMeta:GetSuit()
     if !self:HasActiveSuit() then return end
     return self:GetNWString( "QSuitKey", "" )
